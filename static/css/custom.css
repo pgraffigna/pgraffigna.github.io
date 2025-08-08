@@ -1,0 +1,23 @@
+html[theme="dark-mode"] {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+html[theme="dark-mode"] img,
+html[theme="dark-mode"] video,
+html[theme="dark-mode"] svg {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+/* Botón para cambiar modo */
+#darkModeToggle {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: #444;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  z-index: 9999;
+}

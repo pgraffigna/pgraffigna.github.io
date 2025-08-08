@@ -1,0 +1,20 @@
+baseURL = 'https://pgraffigna.github.io/'
+languageCode = 'es'
+title = 'Bl0g!'
+theme = 'mini'
+#publishDir = 'docs'
+
+[params]
+description = "Bl0g!"
+showToc = true
+showPowerBy = false
+hiddenPostSummaryInHomePage = true
+copyright = "© Copyright 2025 pgraffigna"
+
+#customCSS = ["css/custom.css"]
+#customJS  = ["js/custom.js"]
+
+[params.social]
+github = "https://github.com/pgraffigna"
+linkedin = "https://www.linkedin.com/in/pablo-graffigna/"
+
