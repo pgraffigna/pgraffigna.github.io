@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cloud on Bl0g!</title>
+    <link>http://localhost:1313/tags/cloud/</link>
+    <description>Recent content in Cloud on Bl0g!</description>
+    <generator>Hugo</generator>
+    <language>es</language>
+    <lastBuildDate>Mon, 11 Aug 2025 10:00:48 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/cloud/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CLOUD: Adios Free Tier </title>
+      <link>http://localhost:1313/posts/aws_freetier/</link>
+      <pubDate>Mon, 11 Aug 2025 10:00:48 +0000</pubDate>
+      <guid>http://localhost:1313/posts/aws_freetier/</guid>
+      <description>&lt;p&gt;Desde Amazon me mandan el siguiente correo&lt;/p&gt;&#xA;&lt;p&gt;&lt;p class=&#34;markdown-image&#34;&gt;&#xA;  &lt;img src=&#34;http://localhost:1313/img/aws_freetier/capa_gratuita.png&#34; alt=&#34;aviso&#34;  /&gt;&#xA;&lt;/p&gt;&lt;/p&gt;&#xA;&lt;p&gt;Antes del vencimiento de la capa gratuita me gustaria aprovechar para hacer algunas pruebas de despliegue automatico, por ej: crear una instancia ec2 con docker/docker-compose usando Infraestructura como Código (IaC) en este caso Terraform.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;h2 id=&#34;preparando-los-archivos-necesarios&#34;&gt;Preparando los archivos necesarios &lt;a href=&#34;#preparando-los-archivos-necesarios&#34; class=&#34;anchor&#34;&gt;🔗&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;Despues de investigar un poco para el despliegue voy a necesitar estos archivos&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;main.tf&lt;/li&gt;&#xA;&lt;li&gt;output.tf&lt;/li&gt;&#xA;&lt;li&gt;provider.tf&lt;/li&gt;&#xA;&lt;li&gt;variables.tf&lt;/li&gt;&#xA;&lt;li&gt;user_data.sh&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;y un par de llaves SSH&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

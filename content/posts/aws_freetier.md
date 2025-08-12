@@ -2,6 +2,7 @@
 date: '2025-08-11T10:00:48Z'
 draft: false
 title: 'CLOUD: Adios Free Tier '
+tags: ["cloud"]
 ---
 
 Desde Amazon me mandan el siguiente correo

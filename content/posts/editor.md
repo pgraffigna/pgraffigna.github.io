@@ -2,6 +2,7 @@
 date: '2025-08-06T15:26:48Z'
 draft: false
 title: 'HTB: Editor'
+tags: ["hacking"]
 ---
 
 # Algunas notas sobre la máquina [Editor](https://app.hackthebox.com/machines/684) de [Hack The Box](https://www.hackthebox.com/)

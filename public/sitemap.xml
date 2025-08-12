@@ -5,11 +5,20 @@
     <loc>http://localhost:1313/</loc>
     <lastmod>2025-08-11T10:00:48+00:00</lastmod>
   </url><url>
+    <loc>http://localhost:1313/tags/cloud/</loc>
+    <lastmod>2025-08-11T10:00:48+00:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/posts/aws_freetier/</loc>
     <lastmod>2025-08-11T10:00:48+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/</loc>
     <lastmod>2025-08-11T10:00:48+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-08-11T10:00:48+00:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/hacking/</loc>
+    <lastmod>2025-08-06T15:26:48+00:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/editor/</loc>
     <lastmod>2025-08-06T15:26:48+00:00</lastmod>
@@ -19,9 +28,5 @@
   </url><url>
     <loc>http://localhost:1313/about/</loc>
     <lastmod>2019-02-28T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/</loc>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
   </url>
 </urlset>
